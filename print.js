@@ -93,11 +93,13 @@ Print.prototype = {
     doc.open();
     doc.write(content);
     doc.close();
-    this.toPrint(w);
-
-    setTimeout(function () {
-      document.body.removeChild(iframe)
-    }, 100)
+    var _this = this
+    setTimeout(function(){
+      _this.toPrint(w);
+      setTimeout(function () {
+        document.body.removeChild(iframe)
+      }, 100)
+    },1000)
   },
 
   toPrint: function (frameWindow) {
