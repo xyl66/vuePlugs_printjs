@@ -94,12 +94,12 @@ Print.prototype = {
     doc.write(content);
     doc.close();
     var _this = this
-    setTimeout(function(){
+    iframe.onload = function(){
       _this.toPrint(w);
       setTimeout(function () {
         document.body.removeChild(iframe)
       }, 100)
-    },1000)
+    }
   },
 
   toPrint: function (frameWindow) {
