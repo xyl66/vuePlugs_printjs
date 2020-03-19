@@ -78,8 +78,28 @@ Print.prototype = {
         }
       }
     }
+    // 包裹要打印的元素
+    // fix: https://github.com/xyl66/vuePlugs_printjs/issues/36
+    return this.wrapperRefDom(this.dom).outerHTML;
+  },
+  // 向父级元素循环，包裹当前需要打印的元素
+  // 防止根级别开头的 css 选择器不生效
+  wrapperRefDom: function (refDom) {
+    let prevDom = null
+    let currDom = refDom
+    while (currDom && currDom.tagName.toLowerCase() !== 'body') {
+      if (prevDom) {
+        let element = currDom.cloneNode(false)
+        element.appendChild(prevDom)
+        prevDom = element
+      } else {
+        prevDom = currDom.cloneNode(true)
+      }
 
-    return this.dom.outerHTML;
+      currDom = currDom.parentElement
+    }
+
+    return currDom.tagName.toLowerCase() === 'body' ? currDom : prevDom
   },
 
   writeIframe: function (content) {
